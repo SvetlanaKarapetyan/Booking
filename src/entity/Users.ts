@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Bookings } from "./Bookings";
+import { LaboratoryBooking } from "./LaboratoryBooking";
 
 export enum UserRole {
     Admin = "admin",
@@ -28,6 +28,6 @@ export class Users {
     })
     role: UserRole;
 
-    @OneToMany(() => Bookings, (booking) => booking.user)
-    bookings: Bookings[];
+    @OneToMany(() => LaboratoryBooking, (booking) => booking.user)
+    bookings: LaboratoryBooking[];
 }

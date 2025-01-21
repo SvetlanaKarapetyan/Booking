@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
 import { Faculties } from "./Faculties";
 import { Computers } from "./Computers";
-import { Bookings } from "./Bookings";
+import { LaboratoryBooking } from "./LaboratoryBooking";
 import { SlotTimetables } from "./SlotTimetables";
 
 @Entity()
@@ -19,8 +19,8 @@ export class Laboratories {
     @OneToMany(() => Computers, (computer) => computer.laboratory)
     computers: Computers[];
 
-    @OneToMany(() => Bookings, (booking) => booking.laboratory)
-    bookings: Bookings[];
+    @OneToMany(() => LaboratoryBooking, (booking) => booking.laboratory)
+    bookings: LaboratoryBooking[];
 
     @OneToMany(() => SlotTimetables, (slot) => slot.laboratory)
     slotTimetables: SlotTimetables[];

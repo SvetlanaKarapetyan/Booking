@@ -13,7 +13,7 @@ export class UserController {
     @Get("/:id")
     async getOne(@Param("id") id: number) {
         const userRepository = AppDataSource.getRepository(Users);
-        const user = await userRepository.findOne({
+        const user =  userRepository.findOne({
             where: { id: id },
         });
 

@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
 import { Laboratories } from "./Laboratories";
-import { Bookings } from "./Bookings";
+import { ComputerBooking } from "./ComputerBooking";
 
 export enum ComputerStatus {
     Working = "working",
@@ -22,6 +22,6 @@ export class Computers {
     @ManyToOne(() => Laboratories, (laboratory) => laboratory.computers)
     laboratory: Laboratories;
 
-    @OneToMany(() => Bookings, (booking) => booking.computer)
-    bookings: Bookings[];
+    @OneToMany(() => ComputerBooking, (booking) => booking.computer)
+    bookings: ComputerBooking[];
 }

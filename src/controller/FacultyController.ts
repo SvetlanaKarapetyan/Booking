@@ -13,7 +13,7 @@ export class FacultyController {
     @Get("/:id")
     async getOne(@Param("id") id: number) {
         const facultyRepository = AppDataSource.getRepository(Faculties);
-        const faculty = await facultyRepository.findOne({ where: { faculty_id: id } });
+        const faculty =  facultyRepository.findOne({ where: { faculty_id: id } });
 
         if (!faculty) {
             throw new Error(`Faculty with ID ${id} not found.`);

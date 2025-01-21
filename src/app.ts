@@ -3,13 +3,14 @@ import { createExpressServer } from "routing-controllers";
 import { AppDataSource } from "./data-source";
 import { UserController } from "./controller/UserController";
 import { LaboratoryController } from "./controller/LaboratoryController";
-import { BookingController } from "./controller/BookingController";
+import { LaboratoryBookingController } from "./controller/LaboratoryBookingController";
 import { ComputerController } from "./controller/ComputerController";
 import { FacultyController } from "./controller/FacultyController";
-import { SlotTimetableController } from "./controller/SlotTimetable";
+import { SlotTimetableController } from "./controller/SlotTimetableController";
+import {ComputerBookingController} from "./controller/ComputerBookingController";
 
 const app = createExpressServer({
-    controllers: [UserController, LaboratoryController, BookingController, FacultyController, SlotTimetableController, ComputerController],
+    controllers: [UserController, LaboratoryController, LaboratoryBookingController, FacultyController, SlotTimetableController, ComputerController, ComputerBookingController],
 });
 
 AppDataSource.initialize()

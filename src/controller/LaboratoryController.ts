@@ -13,7 +13,7 @@ export class LaboratoryController {
     @Get("/:id")
     async getOne(@Param("id") id: string) {
         const laboratoryRepository = AppDataSource.getRepository(Laboratories);
-        const laboratory = await laboratoryRepository.findOneBy({
+        const laboratory =  laboratoryRepository.findOneBy({
             laboratory_id: parseInt(id, 10),
         });
 
