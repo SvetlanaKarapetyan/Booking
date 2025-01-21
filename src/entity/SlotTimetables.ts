@@ -6,7 +6,7 @@ export class SlotTimetables {
     @PrimaryGeneratedColumn()
     slot_id: number;
 
-    @ManyToOne(() => Laboratories, (laboratory) => laboratory.slotTimetables, { nullable: false })
+    @ManyToOne(() => Laboratories, (laboratory) => laboratory.slotTimetables, { nullable: true })
     @JoinColumn({ name: "laboratory_id" })
     laboratory: Laboratories;
 

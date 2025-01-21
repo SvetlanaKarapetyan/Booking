@@ -2,11 +2,14 @@ import "reflect-metadata";
 import { createExpressServer } from "routing-controllers";
 import { AppDataSource } from "./data-source";
 import { UserController } from "./controller/UserController";
-
-
+import { LaboratoryController } from "./controller/LaboratoryController";
+import { BookingController } from "./controller/BookingController";
+import { ComputerController } from "./controller/ComputerController";
+import { FacultyController } from "./controller/FacultyController";
+import { SlotTimetableController } from "./controller/SlotTimetable";
 
 const app = createExpressServer({
-    controllers: [UserController],
+    controllers: [UserController, LaboratoryController, BookingController, FacultyController, SlotTimetableController, ComputerController],
 });
 
 AppDataSource.initialize()
@@ -17,4 +20,3 @@ AppDataSource.initialize()
         });
     })
     .catch((error) => console.log("Database connection error:", error));
-

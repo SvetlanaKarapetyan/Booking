@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { User } from "./Users";
+import { Users } from "./Users";
 import { Laboratories } from "./Laboratories";
 import { Computers } from "./Computers";
 
@@ -8,8 +8,8 @@ export class Bookings {
     @PrimaryGeneratedColumn()
     booking_id: number;
 
-    @ManyToOne(() => User)
-    user: User;
+    @ManyToOne(() => Users)
+    user: Users;
 
     @ManyToOne(() => Laboratories)
     laboratory: Laboratories;

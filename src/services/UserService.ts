@@ -1,12 +1,12 @@
 import {Repository} from "typeorm";
 import {AppDataSource} from "../data-source";
-import {User} from "../entity/Users";
+import {Users} from "../entity/Users";
 
 class UserService {
-    repository: Repository<User>;
+    repository: Repository<Users>;
 
     constructor() {
-        this.repository = AppDataSource.getRepository(User)
+        this.repository = AppDataSource.getRepository(Users)
     }
     getAll() {
         return this.repository.find();

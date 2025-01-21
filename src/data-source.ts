@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { User } from "./entity/Users";
+import { Users } from "./entity/Users";
 import { Faculties } from "./entity/Faculties";
 import { Laboratories } from "./entity/Laboratories";
 import { Computers } from "./entity/Computers";
@@ -11,7 +11,7 @@ export const AppDataSource = new DataSource({
     database: "db.sqlite",
     synchronize: true,
     logging: false,
-    entities: [User, Faculties, Laboratories, Computers, Bookings, SlotTimetables],
+    entities: [Users, Faculties, Laboratories, Computers, Bookings, SlotTimetables],
     subscribers: [],
     migrations: [],
 });
