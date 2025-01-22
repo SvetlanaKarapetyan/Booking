@@ -8,7 +8,6 @@ async function createAdmin() {
         await AppDataSource.initialize();
         console.log("Data Source has been initialized.");
     }
-
     const userRepository = AppDataSource.getRepository(Users);
     const existingAdmin = await userRepository.findOne({ where: { role: UserRole.Admin } });
     if (existingAdmin) {
