@@ -12,7 +12,7 @@ export const AppDataSource = new DataSource({
     database: "db.sqlite",
     synchronize: true,
     logging: false,
-    entities: [Users, Faculties, Laboratories, Computers, LaboratoryBooking, SlotTimetables, ComputerBooking],
+    entities: [Users, Faculties, Laboratories, Computers, LaboratoryBooking, ComputerBooking, SlotTimetables],
     subscribers: [],
     migrations: [],
 });
