@@ -35,7 +35,6 @@ async function createSlotTimetable() {
             console.error("Error saving slot entry:", error);
         }
     }
-
     console.log("Slot timetable created successfully.");
 }
 createSlotTimetable().catch((error) => {

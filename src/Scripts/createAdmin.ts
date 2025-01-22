@@ -15,7 +15,6 @@ async function createAdmin() {
         console.log("Admin user already exists.");
         return;
     }
-
     const admin = new Users();
     admin.email = "admin@example.com";
     admin.password = await bcrypt.hash("admin_password", 10);
