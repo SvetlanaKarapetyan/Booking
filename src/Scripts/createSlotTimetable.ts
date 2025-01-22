@@ -9,7 +9,6 @@ async function createSlotTimetable() {
 
     const slotRepository = AppDataSource.getRepository(SlotTimetables);
 
-    // Ստուգեք, եթե արդեն կա ժամանակացույց
     const existingSlots = await slotRepository.find();
     if (existingSlots.length > 0) {
         console.log("Slot timetable already exists.");
@@ -39,7 +38,6 @@ async function createSlotTimetable() {
 
     console.log("Slot timetable created successfully.");
 }
-
 createSlotTimetable().catch((error) => {
     console.error("Error creating slot timetable:", error);
 });

@@ -4,17 +4,18 @@ import * as bcrypt from "bcrypt";
 import { UserRole } from "../entity/Users";
 
 async function createAdmin() {
-
     if (!AppDataSource.isInitialized) {
         await AppDataSource.initialize();
         console.log("Data Source has been initialized.");
     }
+
     const userRepository = AppDataSource.getRepository(Users);
     const existingAdmin = await userRepository.findOne({ where: { role: UserRole.Admin } });
     if (existingAdmin) {
         console.log("Admin user already exists.");
         return;
     }
+
     const admin = new Users();
     admin.email = "admin@example.com";
     admin.password = await bcrypt.hash("admin_password", 10);
