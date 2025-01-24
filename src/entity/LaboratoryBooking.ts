@@ -18,5 +18,5 @@ export class LaboratoryBooking {
     slot: SlotTimetables;
 
     @Column()
-    date: Date;
+    bookingdate: Date;
 }

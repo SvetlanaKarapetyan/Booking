@@ -18,5 +18,5 @@ export class ComputerBooking {
     slot: SlotTimetables;
 
     @Column()
-    date: Date;
+    bookingdate: Date;
 }

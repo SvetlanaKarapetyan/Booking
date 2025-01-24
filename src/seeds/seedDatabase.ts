@@ -13,7 +13,6 @@ const seedDatabase = async () => {
         const laboratoryRepository = AppDataSource.getRepository(Laboratories);
         const userRepository = AppDataSource.getRepository(Users);
 
-        // Ստեղծում ենք ֆակուլտետներ
         const faculties = [];
         for (let i = 0; i < 10; i++) {
             const faculty = new Faculties();
@@ -22,7 +21,6 @@ const seedDatabase = async () => {
         }
         await facultyRepository.save(faculties);
 
-        // Ստեղծում ենք լաբորատորիաներ
         const laboratories = [];
         for (let i = 0; i < 10; i++) {
             const laboratory = new Laboratories();
@@ -32,7 +30,6 @@ const seedDatabase = async () => {
         }
         await laboratoryRepository.save(laboratories);
 
-        // Ստեղծում ենք կոմպյուտերներ
         const computers = [];
         for (let i = 0; i < 10; i++) {
             const computer = new Computers();
@@ -42,14 +39,13 @@ const seedDatabase = async () => {
         }
         await computerRepository.save(computers);
 
-        // Ստեղծում ենք օգտագործողներ
         const users = [];
         for (let i = 0; i < 10; i++) {
             const user = new Users();
             user.name = randomString(8);
             user.email = `user${i + 1}@example.com`;
             user.password = `password${i + 1}`;
-            user.role = i % 2 === 0 ? UserRole.Student : UserRole.Lecturer; // Ավտոմատ կերպով ընտրել ուսանող կամ դասախոս
+            user.role = i % 2 === 0 ? UserRole.Student : UserRole.Lecturer;
             users.push(user);
         }
         await userRepository.save(users);
@@ -60,7 +56,6 @@ const seedDatabase = async () => {
     }
 };
 
-// Վերադարձնելու համար օգտագործված ռանդոմ ստրինգ ֆունկցիա
 const randomString = (length: number): string => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
@@ -70,7 +65,6 @@ const randomString = (length: number): string => {
     return result;
 };
 
-// Սկսեք տվյալների բազան լցնելու պրոցեսը
 (async () => {
     await seedDatabase();
 })();

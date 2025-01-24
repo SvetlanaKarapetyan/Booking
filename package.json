@@ -33,6 +33,8 @@
    "scripts": {
       "start": "ts-node src/app.ts",
       "seed-admins": "ts-node src/Scripts/createAdmin.ts",
+      "service-computerBooking": "ts-node src/services/ComputerBookingService.ts",
+      "service-laboratoryBooking": "ts-node src/services/LaboratoryBookingService.ts",
       "seed-SlotTimetable": "ts-node src/Scripts/createSlotTimetable.ts",
       "seed-database": "ts-node src/seeds/seedDatabase.ts",
       "typeorm": "typeorm-ts-node-commonjs"
