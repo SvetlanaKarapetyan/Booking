@@ -1,30 +1,47 @@
 import { AppDataSource } from "../data-source";
-import { LaboratoryBooking } from "../entity/LaboratoryBooking";
 import { ComputerBooking } from "../entity/ComputerBooking";
-import { Users } from "../entity/Users";
 import { Computers } from "../entity/Computers";
+import { Users } from "../entity/Users";
 import { SlotTimetables } from "../entity/SlotTimetables";
+import { LaboratoryBooking } from "../entity/LaboratoryBooking";
 
 export class ComputerBookingService {
-    static async bookComputer(userId: number, computerId: number, bookingdate: Date, slotId: number) {
-        const computerRepo = AppDataSource.getRepository(Computers);
-        const computerBookingRepo = AppDataSource.getRepository(ComputerBooking);
-        const labBookingRepo = AppDataSource.getRepository(LaboratoryBooking);
-        const userRepo = AppDataSource.getRepository(Users);
-        const slotRepo = AppDataSource.getRepository(SlotTimetables);
+    private computerRepo = AppDataSource.getRepository(Computers);
+    private computerBookingRepo = AppDataSource.getRepository(ComputerBooking);
+    private labBookingRepo = AppDataSource.getRepository(LaboratoryBooking);
+    private userRepo = AppDataSource.getRepository(Users);
+    private slotRepo = AppDataSource.getRepository(SlotTimetables);
 
-        const computer = await computerRepo.findOne({
+    async getAllBookings() {
+        return this.computerBookingRepo.find({ relations: ["user", "computer", "slot"] });
+    }
+
+    async getBookingById(id: number) {
+        const booking = await this.computerBookingRepo.findOne({
+            where: { booking_id: id },
+            relations: ["user", "computer", "slot"],
+        });
+
+        if (!booking) {
+            throw new Error("Booking not found.");
+        }
+
+        return booking;
+    }
+
+    async bookComputer(userId: number, computerId: number, bookingdate: Date, slotId: number) {
+        const computer = await this.computerRepo.findOne({
             where: { computer_id: computerId },
             relations: ["laboratory"],
         });
-        const user = await userRepo.findOne({ where: { id: userId } });
-        const slot = await slotRepo.findOne({ where: { slot_id: slotId } });
+        const user = await this.userRepo.findOne({ where: { id: userId } });
+        const slot = await this.slotRepo.findOne({ where: { slot_id: slotId } });
 
         if (!computer || !user || !slot) {
             throw new Error("User, Computer, or Slot not found.");
         }
 
-        const existingLabBooking = await labBookingRepo.findOne({
+        const existingLabBooking = await this.labBookingRepo.findOne({
             where: { laboratory: { laboratory_id: computer.laboratory.laboratory_id }, bookingdate, slot },
         });
 
@@ -32,7 +49,7 @@ export class ComputerBookingService {
             throw new Error("The laboratory containing this computer is already booked.");
         }
 
-        const existingComputerBooking = await computerBookingRepo.findOne({
+        const existingComputerBooking = await this.computerBookingRepo.findOne({
             where: { computer: { computer_id: computerId }, bookingdate, slot },
         });
 
@@ -46,7 +63,17 @@ export class ComputerBookingService {
         newComputerBooking.slot = slot;
         newComputerBooking.bookingdate = bookingdate;
 
-        await computerBookingRepo.save(newComputerBooking);
-        return newComputerBooking;
+        return this.computerBookingRepo.save(newComputerBooking);
+    }
+
+    async deleteBooking(id: number) {
+        const booking = await this.computerBookingRepo.findOne({ where: { booking_id: id } });
+
+        if (!booking) {
+            return { message: "Booking not found." };
+        }
+
+        await this.computerBookingRepo.remove(booking);
+        return { message: "Booking deleted successfully." };
     }
 }

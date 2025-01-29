@@ -1,41 +1,34 @@
 import { JsonController, Get, Post, Delete, Body, Param } from "routing-controllers";
-import { AppDataSource } from "../data-source";
-import { ComputerBooking } from "../entity/ComputerBooking";
+import { ComputerBookingService } from "../services/ComputerBookingService";
 
 @JsonController("/computer-bookings")
 export class ComputerBookingController {
+    private computerBookingService = new ComputerBookingService();
+
     @Get()
     async getAll() {
-        const bookingRepository = AppDataSource.getRepository(ComputerBooking);
-        return bookingRepository.find({ relations: ["user", "computer", "slot"] });
+        return this.computerBookingService.getAllBookings();
     }
 
     @Get("/:id")
     async getById(@Param("id") id: number) {
-        const bookingRepository = AppDataSource.getRepository(ComputerBooking);
-        return bookingRepository.findOne({
-            where: { booking_id: id },
-            relations: ["user", "computer", "slot"],
-        });
+        return this.computerBookingService.getBookingById(id);
     }
 
     @Post()
-    async createBooking(@Body() bookingData: Partial<ComputerBooking>) {
-        const bookingRepository = AppDataSource.getRepository(ComputerBooking);
-        const booking = bookingRepository.create(bookingData);
-        return bookingRepository.save(booking);
+    async createBooking(
+        @Body() bookingData: { userId: number; computerId: number; bookingdate: Date; slotId: number }
+    ) {
+        return this.computerBookingService.bookComputer(
+            bookingData.userId,
+            bookingData.computerId,
+            bookingData.bookingdate,
+            bookingData.slotId
+        );
     }
 
     @Delete("/:id")
     async deleteBooking(@Param("id") id: number) {
-        const bookingRepository = AppDataSource.getRepository(ComputerBooking);
-        const booking = await bookingRepository.findOne({ where: { booking_id: id } });
-
-        if (!booking) {
-            return { message: "Booking not found" };
-        }
-
-        await bookingRepository.remove(booking);
-        return { message: "Booking deleted successfully" };
+        return this.computerBookingService.deleteBooking(id);
     }
 }

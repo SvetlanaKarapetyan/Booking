@@ -1,51 +1,28 @@
-import { JsonController, Get, Post, Body, Param } from "routing-controllers";
-import { AppDataSource } from "../data-source";
-import { SlotTimetables } from "../entity/SlotTimetables";
-import { Laboratories } from "../entity/Laboratories";
+import { JsonController, Get, Post, Delete, Body, Param } from "routing-controllers";
+import { slotTimetableService } from "../services/SlotTimetableService";
+import {SlotTimetables } from "../entity/SlotTimetables";
 
 @JsonController("/slottimetable")
 export class SlotTimetableController {
     @Get()
     async getAll() {
-        const slotRepository = AppDataSource.getRepository(SlotTimetables);
-        return slotRepository.find({ relations: ["laboratory"] });
+        return slotTimetableService.getAll();
     }
 
     @Get("/:id")
-    async getOne(@Param("id") id: number) {
-        const slotRepository = AppDataSource.getRepository(SlotTimetables);
-        const slot = await slotRepository.findOne({
-            where: { slot_id: id },
-            relations: ["laboratory"],
-        });
-
-        if (!slot) {
-            throw new Error(`Slot with ID ${id} not found.`);
-        }
-
-        return slot;
+    async getOne(@Param("id") id: string) {
+        const slotId = parseInt(id, 10);
+        return slotTimetableService.getById(slotId);
     }
 
     @Post()
     async createSlot(@Body() slotData: Partial<SlotTimetables>) {
-        const slotRepository = AppDataSource.getRepository(SlotTimetables);
+        return slotTimetableService.create(slotData);
+    }
 
-        if (slotData.laboratory) {
-            const laboratoryRepository = AppDataSource.getRepository(Laboratories);
-            const laboratory = await laboratoryRepository.findOne({
-                where: { laboratory_id: slotData.laboratory.laboratory_id },
-            });
-
-            if (!laboratory) {
-                throw new Error(
-                    `Laboratory with ID ${slotData.laboratory.laboratory_id} not found.`
-                );
-            }
-
-            slotData.laboratory = laboratory;
-        }
-
-        const slot = slotRepository.create(slotData);
-        return slotRepository.save(slot);
+    @Delete("/:id")
+    async deleteSlot(@Param("id") id: string) {
+        const slotId = parseInt(id, 10);
+        return slotTimetableService.delete(slotId);
     }
 }
